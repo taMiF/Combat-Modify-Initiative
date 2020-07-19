@@ -36,5 +36,3 @@ class ExtendedCombatTracker extends CombatTracker {
 Hooks.on('init', () => {
     CONFIG.ui.combat = ExtendedCombatTracker;
 })
-
-// CONFIG.ui.combat = ExtendedCombatTracker;
