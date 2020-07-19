@@ -1,6 +1,25 @@
 class ExtendedCombatTracker extends CombatTracker {
+    static _defaultModifiers = [5, 10, -5, -10];
+    static _defaultModifiersSettingsSeparator = ';';
+
+    static defaultModifierSetting() {
+        return ExtendedCombatTracker._defaultModifiers.join(ExtendedCombatTracker._defaultModifiersSettingsSeparator);
+    }
+
     _getIndexAfterModifyContextOption(options) {
         return options.findIndex(option => option.name === 'Modify') + 1;
+    }
+
+    _getModifierSettings() {
+        const settingsString = game.settings.get('combat-ini-modifier', 'modifiers');
+        const settings = settingsString
+            .split(ExtendedCombatTracker._defaultModifiersSettingsSeparator)
+            // settings are strings, numbers are needed.
+            .map(modifier => Number(modifier))
+            // Disallow non numbers and zero.
+            .filter(modifier => !isNaN(modifier) && modifier !== 0);
+
+        return settings.length ? settings : ExtendedCombatTracker._defaultModifiers;
     }
 
     _modifiyInitiativeBy(li, modifyBy) {
@@ -23,10 +42,14 @@ class ExtendedCombatTracker extends CombatTracker {
     _getEntryContextOptions() {
         const entryContextOptions = super._getEntryContextOptions();
 
-        const afterIdx = this._getIndexAfterModifyContextOption(entryContextOptions);
+        let index = this._getIndexAfterModifyContextOption(entryContextOptions);
 
-        entryContextOptions.splice(afterIdx, 0, this._createModifyContextOption(-10));
-        entryContextOptions.splice(afterIdx, 0, this._createModifyContextOption(-5));
+        const modifiers = this._getModifierSettings();
+
+        modifiers.forEach(modifiedBy => {
+            entryContextOptions.splice(index, 0, this._createModifyContextOption(modifiedBy));
+            index += 1;
+        })
 
         return entryContextOptions;
     }
@@ -35,4 +58,13 @@ class ExtendedCombatTracker extends CombatTracker {
 
 Hooks.on('init', () => {
     CONFIG.ui.combat = ExtendedCombatTracker;
-})
+
+    game.settings.register('combat-ini-modifier', 'modifiers', {
+        name: "List of available modifiers",
+        hint: "A list of modifiers separated by a semicolon (;)",
+        scope: "world",
+        config: true,
+        default: ExtendedCombatTracker.defaultModifierSetting(),
+        type: String
+    })
+});
