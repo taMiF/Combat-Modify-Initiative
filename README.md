@@ -1,5 +1,7 @@
 # Combat-Modify-Initiative
-Modify combat tracker initiative results by fixed amounts.
+A community module for FoundryVTT.
+
+Allows to quickly modify initiative results by fixed amounts.
 
 ![Context](context.png)
 
