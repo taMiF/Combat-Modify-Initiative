@@ -2,7 +2,7 @@
   "name": "combat-ini-modifier",
   "title": "Combat Initiative Modifier",
   "description": "Modify combat initiative by fixed values with only two clicks.",
-  "author": "Jan Schoska",
+  "author": "Jan Schoska taM#9507",
   "version": "0.0.2",
   "minimumCoreVersion": "0.6.4",
   "scripts": [
