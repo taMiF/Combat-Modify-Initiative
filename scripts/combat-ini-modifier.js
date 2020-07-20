@@ -33,9 +33,9 @@ class ExtendedCombatTracker extends CONFIG.ui.combat {
     }
 
     _createModifyContextOption(modifyBy) {
-        modifyBy = modifyBy > 0 ? `+${modifyBy}` : modifyBy;
+        const modifyByStr = modifyBy > 0 ? `+${modifyBy}` : modifyBy;
         return {
-            name: `Modify ${modifyBy}`,
+            name: `Modify ${modifyByStr}`,
             icon: '<i class="fas fa-edit"></i>',
             callback: li => this._modifiyInitiativeBy(li, modifyBy)
         }
