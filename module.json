@@ -8,9 +8,9 @@
   "scripts": [
     "scripts/combat-ini-modifier.js"
   ],
-  "url": "https://github.com/taMiF/FoundryVTT-Modify-Initiative",
-  "manifest": "https://raw.githubusercontent.com/taMiF/FoundryVTT-Modify-Initiative/master/module.json",
-  "download": "https://github.com/taMiF/FoundryVTT-Modify-Initiative/archive/0.0.4.zip",
-  "readme": "https://github.com/taMiF/FoundryVTT-Modify-Initiative/blob/master/README.md",
-  "license": "https://github.com/taMiF/FoundryVTT-Modify-Initiative/blob/master/LICENSE"
+  "url": "https://github.com/taMiF/Combat-Modify-Initiative",
+  "manifest": "https://raw.githubusercontent.com/taMiF/Combat-Modify-Initiative/master/module.json",
+  "download": "https://github.com/taMiF/Combat-Modify-Initiative/archive/0.0.4.zip",
+  "readme": "https://github.com/taMiF/Combat-Modify-Initiative/blob/master/README.md",
+  "license": "https://github.com/taMiF/Combat-Modify-Initiative/blob/master/LICENSE"
 }
