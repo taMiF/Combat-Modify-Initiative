@@ -1,4 +1,5 @@
-class ExtendedCombatTracker extends CombatTracker {
+// extends CombatTracker or other modules extension of it.
+class ExtendedCombatTracker extends CONFIG.ui.combat {
     static _defaultModifiers = [5, 10, -5, -10];
     static _defaultModifiersSettingsSeparator = ';';
 
