@@ -1,17 +1,22 @@
 // extends CombatTracker or other modules extension of it.
-class ExtendedCombatTracker extends CONFIG.ui.combat {
+class ExtendedCombatTracker {
     static _defaultModifiers = [5, 10, -5, -10];
     static _defaultModifiersSettingsSeparator = ';';
+    static _defaultNegativeResults = false;
 
-    static defaultModifierSetting() {
+    static defaultModifierSetting = () => {
         return ExtendedCombatTracker._defaultModifiers.join(ExtendedCombatTracker._defaultModifiersSettingsSeparator);
     }
 
-    _getIndexAfterModifyContextOption(options) {
+    static defaultNegativeResultsSetting = () => {
+        return ExtendedCombatTracker._defaultNegativeResults;
+    }
+
+    _getIndexAfterModifyContextOption = (options) => {
         return options.findIndex(option => option.name === 'Modify') + 1;
     }
 
-    _getModifierSettings() {
+    _getModifierSettings = () => {
         const settingsString = game.settings.get('combat-ini-modifier', 'modifiers');
         const settings = settingsString
             .split(ExtendedCombatTracker._defaultModifiersSettingsSeparator)
@@ -23,16 +28,26 @@ class ExtendedCombatTracker extends CONFIG.ui.combat {
         return settings.length ? settings : ExtendedCombatTracker._defaultModifiers;
     }
 
-    _modifiyInitiativeBy(li, modifyBy) {
-        const combatant = this.combat.getCombatant(li.data('combatant-id'));
-        // Use typecast style used in FoundryVTT.
-        let modifiedIni = Math.round(combatant.initiative * 100) / 100 + modifyBy;
-        modifiedIni = modifiedIni < 0 ? 0 : modifiedIni;
-        // Don't use Combat.updateCombatant to avoid changing turn.
-        this.combat.setInitiative(combatant._id, modifiedIni);
+    _getNegativeResultsSetting = () => {
+        return game.settings.get('combat-ini-modifier', 'negativeResults');
     }
 
-    _createModifyContextOption(modifyBy) {
+    _modifiyInitiativeBy = (li, modifyBy) => {
+        const allowNegativeResults = this._getNegativeResultsSetting();
+        const combatant = game.combat.getCombatant(li.data('combatant-id'));
+
+        // Use typecast style used in FoundryVTT.
+        let modifiedIni = Math.round(combatant.initiative * 100) / 100 + modifyBy;
+
+        if (!allowNegativeResults) {
+            modifiedIni = modifiedIni < 0 ? 0 : modifiedIni;
+        }
+
+        // Don't use Combat.updateCombatant to avoid changing turn.
+        game.combat.setInitiative(combatant._id, modifiedIni);
+    }
+
+    _createModifyContextOption = (modifyBy) => {
         const modifyByStr = modifyBy > 0 ? `+${modifyBy}` : modifyBy;
         return {
             name: `Modify ${modifyByStr}`,
@@ -41,32 +56,46 @@ class ExtendedCombatTracker extends CONFIG.ui.combat {
         }
     }
 
-    _getEntryContextOptions() {
-        const entryContextOptions = super._getEntryContextOptions();
-
-        let index = this._getIndexAfterModifyContextOption(entryContextOptions);
+    enhanceContextOptions = (html, contextOptions) => {
+        let index = this._getIndexAfterModifyContextOption(contextOptions);
 
         const modifiers = this._getModifierSettings();
 
         modifiers.forEach(modifiedBy => {
-            entryContextOptions.splice(index, 0, this._createModifyContextOption(modifiedBy));
+            contextOptions.splice(index, 0, this._createModifyContextOption(modifiedBy));
             index += 1;
         })
 
-        return entryContextOptions;
+        return contextOptions;
+    }
+
+    registerSettings = () => {
+        game.settings.register('combat-ini-modifier', 'modifiers', {
+            name: "List of available modifiers",
+            hint: "A list of modifiers separated by a semicolon (;)",
+            scope: "world",
+            config: true,
+            default: ExtendedCombatTracker.defaultModifierSetting(),
+            type: String
+        });
+
+        game.settings.register('combat-ini-modifier', 'negativeResults', {
+            name: "Allow negative results",
+            hint: "Set this if you need initiative results to go below zero",
+            scope: "world",
+            config: true,
+            default: ExtendedCombatTracker.defaultNegativeResultsSetting(),
+            type: Boolean
+        });
+    }
+
+    registerHooks = () => {
+        Hooks.on('getCombatTrackerEntryContext', this.enhanceContextOptions)
     }
 }
 
-
 Hooks.on('init', () => {
-    CONFIG.ui.combat = ExtendedCombatTracker;
-
-    game.settings.register('combat-ini-modifier', 'modifiers', {
-        name: "List of available modifiers",
-        hint: "A list of modifiers separated by a semicolon (;)",
-        scope: "world",
-        config: true,
-        default: ExtendedCombatTracker.defaultModifierSetting(),
-        type: String
-    })
+    const extendedCombatTracker = new ExtendedCombatTracker();
+    extendedCombatTracker.registerSettings();
+    extendedCombatTracker.registerHooks();
 });
