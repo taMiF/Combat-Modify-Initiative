@@ -1,11 +1,9 @@
 # Combat-Modify-Initiative
 A community module for FoundryVTT.
 
-Allows to quickly modify initiative results by fixed amounts.
+Allows to quickly modify initiative results by fixed amounts. Modify by values can be configured using module settings.
 
 ![Context](context.png)
-
-Module was made for Shadowrun 5 but can be configured to use other modify numbers using module settings.
 
 ## Installation
 
