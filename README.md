@@ -7,6 +7,6 @@ Allows to quickly modify initiative results by fixed amounts. Modify by values c
 
 ## Installation
 
-Paste the following link in the Install Module interface of your Foundry VTT instance:
+Use Foundry's module installation dialog or paste the following link in the Install Module interface of your Foundry VTT instance:
 
 https://raw.githubusercontent.com/taMiF/Combat-Modify-Initiative/master/module.json
