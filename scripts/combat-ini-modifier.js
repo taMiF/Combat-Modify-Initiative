@@ -90,7 +90,8 @@ class ExtendedCombatTracker {
     }
 
     registerHooks = () => {
-        Hooks.on('getCombatTrackerEntryContext', this.enhanceContextOptions)
+        Hooks.on('getCombatTrackerEntryContext', this.enhanceContextOptions);
+        Hooks.on('getPF2eCombatTrackerEntryContext', this.enhanceContextOptions);
     }
 }
 
