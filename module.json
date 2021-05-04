@@ -5,6 +5,7 @@
   "author": "Jan Schoska taM#9507",
   "version": "1.0",
   "minimumCoreVersion": "0.6.4",
+  "compatibleCoreVersion": "0.8.2",
   "scripts": [
     "scripts/combat-ini-modifier.js"
   ],
