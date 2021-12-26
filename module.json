@@ -3,8 +3,9 @@
   "title": "Combat Initiative Modifier",
   "description": "Modify combat initiative by fixed values with only two clicks.",
   "author": "Jan Schoska taM#9507",
-  "version": "1.0",
+  "version": "1.1",
   "minimumCoreVersion": "0.6.4",
+  "compatibleCoreVersion": "9.238",
   "scripts": [
     "scripts/combat-ini-modifier.js"
   ],
