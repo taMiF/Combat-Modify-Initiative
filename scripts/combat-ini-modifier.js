@@ -34,7 +34,7 @@ class ExtendedCombatTracker {
 
     _modifiyInitiativeBy = (li, modifyBy) => {
         const allowNegativeResults = this._getNegativeResultsSetting();
-        const combatant = game.combat.getCombatant(li.data('combatant-id'));
+        const combatant = game.combat.combatants.get(li.data('combatant-id'));
 
         // Use typecast style used in FoundryVTT.
         let modifiedIni = Math.round(combatant.initiative * 100) / 100 + modifyBy;
@@ -44,7 +44,7 @@ class ExtendedCombatTracker {
         }
 
         // Don't use Combat.updateCombatant to avoid changing turn.
-        game.combat.setInitiative(combatant._id, modifiedIni);
+        game.combat.setInitiative(combatant.id, modifiedIni);
     }
 
     _createModifyContextOption = (modifyBy) => {
