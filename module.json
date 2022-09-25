@@ -1,17 +1,24 @@
 {
-  "name": "combat-ini-modifier",
+  "id": "combat-ini-modifier",
   "title": "Combat Initiative Modifier",
   "description": "Modify combat initiative by fixed values with only two clicks.",
-  "author": "Jan Schoska taM#9507",
-  "version": "1.1",
+  "authors": [{
+      "name": "Jan Schoska",
+      "discord": "taM#9507"
+  }],
+  "version": "1.2",
   "minimumCoreVersion": "0.6.4",
-  "compatibleCoreVersion": "9.238",
+  "compatibility": {
+    "minimum": "9",
+    "maximum": "10",
+    "verified": "10.286"
+  },
   "scripts": [
     "scripts/combat-ini-modifier.js"
   ],
   "url": "https://github.com/taMiF/Combat-Modify-Initiative",
-  "manifest": "https://raw.githubusercontent.com/taMiF/Combat-Modify-Initiative/master/module.json",
-  "download": "https://github.com/taMiF/Combat-Modify-Initiative/archive/1.1.zip",
+  "manifest": "https://github.com/taMiF/Combat-Modify-Initiative/releases/latest/download/system.json",
+  "download": "https://github.com/taMiF/Combat-Modify-Initiative/archive/1.2.zip",
   "readme": "https://github.com/taMiF/Combat-Modify-Initiative/blob/master/README.md",
   "license": "https://github.com/taMiF/Combat-Modify-Initiative/blob/master/LICENSE"
 }
