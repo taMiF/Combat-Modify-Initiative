@@ -57,14 +57,17 @@ class ExtendedCombatTracker {
     }
 
     enhanceContextOptions = (html, contextOptions) => {
-        let index = this._getIndexAfterModifyContextOption(contextOptions);
+        if (game.user.isGM)
+        {
+            let index = this._getIndexAfterModifyContextOption(contextOptions);
 
-        const modifiers = this._getModifierSettings();
+            const modifiers = this._getModifierSettings();
 
-        modifiers.forEach(modifiedBy => {
-            contextOptions.splice(index, 0, this._createModifyContextOption(modifiedBy));
-            index += 1;
-        })
+            modifiers.forEach(modifiedBy => {
+                contextOptions.splice(index, 0, this._createModifyContextOption(modifiedBy));
+                index += 1;
+            })
+        }
 
         return contextOptions;
     }
