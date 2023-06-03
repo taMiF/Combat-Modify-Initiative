@@ -2,14 +2,9 @@
 class ExtendedCombatTracker {
     static _defaultModifiers = [5, 10, -5, -10];
     static _defaultModifiersSettingsSeparator = ';';
-    static _defaultNegativeResults = false;
 
     static defaultModifierSetting = () => {
         return ExtendedCombatTracker._defaultModifiers.join(ExtendedCombatTracker._defaultModifiersSettingsSeparator);
-    }
-
-    static defaultNegativeResultsSetting = () => {
-        return ExtendedCombatTracker._defaultNegativeResults;
     }
 
     _getIndexAfterModifyContextOption = (options) => {
@@ -28,12 +23,8 @@ class ExtendedCombatTracker {
         return settings.length ? settings : ExtendedCombatTracker._defaultModifiers;
     }
 
-    _getNegativeResultsSetting = () => {
-        return game.settings.get('combat-ini-modifier', 'negativeResults');
-    }
-
-    _modifiyInitiativeBy = (li, modifyBy) => {
-        const allowNegativeResults = this._getNegativeResultsSetting();
+    _modifyInitiativeBy = (li, modifyBy) => {
+        const allowNegativeResults = false;
         const combatant = game.combat.combatants.get(li.data('combatant-id'));
 
         // Use typecast style used in FoundryVTT.
@@ -52,7 +43,7 @@ class ExtendedCombatTracker {
         return {
             name: `Modify ${modifyByStr}`,
             icon: '<i class="fas fa-edit"></i>',
-            callback: li => this._modifiyInitiativeBy(li, modifyBy)
+            callback: li => this._modifyInitiativeBy(li, modifyBy)
         }
     }
 
@@ -80,15 +71,6 @@ class ExtendedCombatTracker {
             config: true,
             default: ExtendedCombatTracker.defaultModifierSetting(),
             type: String
-        });
-
-        game.settings.register('combat-ini-modifier', 'negativeResults', {
-            name: "Allow negative results",
-            hint: "Set this if you need initiative results to go below zero",
-            scope: "world",
-            config: true,
-            default: ExtendedCombatTracker.defaultNegativeResultsSetting(),
-            type: Boolean
         });
     }
 
